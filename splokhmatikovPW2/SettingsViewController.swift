@@ -13,23 +13,28 @@ final class SettingsViewController: UIViewController {
     private var locationTextView: UITextView
     private var locationManager: CLLocationManager
     private var masterToggle: UISwitch
-    private var sliders: [UISlider]
+    private var masterSliders: [UISlider]
+    private var changeMasterColor: (_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> Void
+    private let sliders = [UISlider(), UISlider(), UISlider()]
     private let colors = ["Red", "Green", "Blue"]
     
-    init(locationTextView: UITextView, locationManager: CLLocationManager, masterToggle: UISwitch, sliders: [UISlider]) {
+    init(locationTextView: UITextView, locationManager: CLLocationManager, masterToggle: UISwitch, sliders: [UISlider], function: @escaping (_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> Void) {
         self.locationTextView = locationTextView
         self.masterToggle = masterToggle
         self.locationManager = locationManager
-        self.sliders = sliders
+        self.masterSliders = sliders
+        self.changeMasterColor = function
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        self.locationTextView = UITextView()
-        self.locationManager = CLLocationManager()
-        self.masterToggle = UISwitch()
-        self.sliders = []
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    private func placeholder(red: CGFloat, green: CGFloat, blue: CGFloat){
+        return
     }
     
     override func viewDidLoad() {
@@ -56,6 +61,7 @@ final class SettingsViewController: UIViewController {
         settingsView.addArrangedSubview(locationToggle)
         locationToggle.pinTop(to: settingsView, 50)
         locationToggle.pinRight(to: settingsView, 10)
+        locationToggle.pinLeft(to: settingsView, 100)
         locationToggle.addTarget(
             self,
             action: #selector(locationToggleSwitched),
@@ -113,10 +119,13 @@ final class SettingsViewController: UIViewController {
             label.pinLeft(to: view, 5)
             label.setWidth(to: 50)
             let slider = sliders[i]
-            slider.minimumValue = 0
-            slider.maximumValue = 1
             slider.addTarget(self, action:
                                 #selector(sliderChangedValue), for: .valueChanged)
+            for i in 0..<3{
+                sliders[i].value = masterSliders[i].value
+            }
+            slider.minimumValue = 0
+            slider.maximumValue = 1
             view.addSubview(slider)
             slider.pinTop(to: view, 5)
             slider.setHeight(to: 20)
@@ -126,11 +135,10 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func sliderChangedValue() {
-        let red: CGFloat = CGFloat(sliders[0].value)
-        let green: CGFloat = CGFloat(sliders[1].value)
-        let blue: CGFloat = CGFloat(sliders[2].value)
-        view.backgroundColor = UIColor(red: red, green: green, blue:
-                                        blue, alpha: 1)
+        for i in 0..<3{
+            masterSliders[i].value = sliders[i].value
+        }
+        changeMasterColor(CGFloat(sliders[0].value), CGFloat(sliders[0].value), CGFloat(sliders[0].value))
     }
     
     @objc

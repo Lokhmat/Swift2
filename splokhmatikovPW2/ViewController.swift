@@ -60,11 +60,11 @@ class ViewController: UIViewController {
         case 2:
             let navigationController = UINavigationController()
             navigationController.pushViewController(
-                SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders),
+                SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders, function: changeColor(red:green:blue:)),
                 animated: true
             )
         case 3:
-            present(SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders), animated: true, completion: nil)
+            present(SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders, function: changeColor(red:green:blue:)), animated: true, completion: nil)
             buttonCount = -1
         default:
             buttonCount = -1
@@ -151,7 +151,7 @@ class ViewController: UIViewController {
             view.addSubview(slider)
             slider.pinTop(to: view, 5)
             slider.setHeight(to: 20)
-            slider.pinLeft(to: view, 50)
+            slider.pinLeft(to: view, 60)
             slider.pinRight(to: view)
         }
     }
@@ -160,6 +160,10 @@ class ViewController: UIViewController {
         let red: CGFloat = CGFloat(sliders[0].value)
         let green: CGFloat = CGFloat(sliders[1].value)
         let blue: CGFloat = CGFloat(sliders[2].value)
+        changeColor(red: red, green: green, blue: blue)
+    }
+    
+    private func changeColor(red: CGFloat, green: CGFloat, blue: CGFloat){
         view.backgroundColor = UIColor(red: red, green: green, blue:
                                         blue, alpha: 1)
     }
