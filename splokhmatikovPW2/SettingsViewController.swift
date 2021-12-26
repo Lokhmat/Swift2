@@ -1,75 +1,43 @@
 //
-//  ViewController.swift
+//  SettingsViewController.swift
 //  splokhmatikovPW2
 //
-//  Created by Сергей Лохматиков on 22.09.2021.
+//  Created by Сергей Лохматиков on 20.12.2021.
 //
 
 import UIKit
 import CoreLocation
-import AVKit
 
-class ViewController: UIViewController {
+final class SettingsViewController: UIViewController {
     private let settingsView = UIStackView()
-    private let locationTextView = UITextView()
-    private let locationManager = CLLocationManager()
-    private let locationToggle = UISwitch()
-    private var musicPlayer: AVAudioPlayer?
-    private let sliders = [UISlider(), UISlider(), UISlider()]
+    private var locationTextView: UITextView
+    private var locationManager: CLLocationManager
+    private var masterToggle: UISwitch
+    private var sliders: [UISlider]
     private let colors = ["Red", "Green", "Blue"]
+    
+    init(locationTextView: UITextView, locationManager: CLLocationManager, masterToggle: UISwitch, sliders: [UISlider]) {
+        self.locationTextView = locationTextView
+        self.masterToggle = masterToggle
+        self.locationManager = locationManager
+        self.sliders = sliders
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.locationTextView = UITextView()
+        self.locationManager = CLLocationManager()
+        self.masterToggle = UISwitch()
+        self.sliders = []
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.requestWhenInUseAuthorization()
-        setupSettingsButton()
-        setupLocationxtView()
+        setupCloseButton()
         setupSettingsView()
         setupLocationToggle()
         setupSliders()
-    }
-    
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle{
-        return .lightContent
-    }
-    
-    private func setupSettingsButton(){
-        let settingsButton = UIButton(type: .system)
-        self.view.addSubview(settingsButton)
-        settingsButton.setImage(UIImage(named: "settings-2")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        settingsButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        settingsButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        settingsButton.pinTop(to: view.safeAreaLayoutGuide.topAnchor, 15)
-        settingsButton.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, 15)
-        settingsButton.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
-        settingsView.alpha = 0
-    }
-    
-    private var buttonCount = 0
-    @objc private func settingsButtonPressed() {
-        let memeAudio = NSDataAsset(name: "amogus")
-        if  memeAudio != nil{
-            musicPlayer = try? AVAudioPlayer(data: memeAudio!.data)
-            musicPlayer?.play()
-        }
-        switch buttonCount {
-        case 0, 1:
-            UIStackView.animate(withDuration: 0.1, animations: {
-                self.settingsView.alpha = 1 - self.settingsView.alpha
-            })
-        case 2:
-            let navigationController = UINavigationController()
-            navigationController.pushViewController(
-                SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders),
-                animated: true
-            )
-        case 3:
-            present(SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders), animated: true, completion: nil)
-            buttonCount = -1
-        default:
-            buttonCount = -1
-        }
-        buttonCount += 1
     }
     
     private func setupSettingsView(){
@@ -81,22 +49,13 @@ class ViewController: UIViewController {
         self.settingsView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         self.settingsView.layer.cornerRadius = 10
     }
-    private func setupLocationxtView(){
-        view.addSubview(locationTextView)
-        locationTextView.backgroundColor = .white
-        locationTextView.layer.cornerRadius = 20
-        locationTextView.pinTop(to: view.safeAreaLayoutGuide.topAnchor, 60)
-        locationTextView.pinCenter(to: view)
-        locationTextView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        locationTextView.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, 15)
-        locationTextView.isUserInteractionEnabled = false
-    }
     
     private func setupLocationToggle() {
+        let locationToggle = UISwitch()
+        locationToggle.isOn = masterToggle.isOn
         settingsView.addArrangedSubview(locationToggle)
         locationToggle.pinTop(to: settingsView, 50)
         locationToggle.pinRight(to: settingsView, 10)
-        locationToggle.pinLeft(to: settingsView, 100)
         locationToggle.addTarget(
             self,
             action: #selector(locationToggleSwitched),
@@ -112,6 +71,7 @@ class ViewController: UIViewController {
     
     @objc
     func locationToggleSwitched(_ sender: UISwitch) {
+        masterToggle.isOn = !masterToggle.isOn
         if sender.isOn {
             if CLLocationManager.locationServicesEnabled() {
                 locationManager.delegate = self
@@ -125,6 +85,15 @@ class ViewController: UIViewController {
             locationTextView.text = ""
             locationManager.stopUpdatingLocation()
         }
+    }
+    
+    private func setupCloseButton() {
+        let button = UIButton(type: .close)
+        view.addSubview(button)
+        button.pinTop(to: view, 10)
+        button.pinRight(to: view, 10)
+        button.addTarget(self, action: #selector(closeScreen),
+                         for: .touchUpInside)
     }
     
     private func setupSliders() {
@@ -164,9 +133,13 @@ class ViewController: UIViewController {
                                         blue, alpha: 1)
     }
     
+    @objc
+    private func closeScreen() {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension SettingsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let coord: CLLocationCoordinate2D =
@@ -174,4 +147,3 @@ extension ViewController: CLLocationManagerDelegate {
         locationTextView.text = "Coordinates = \(coord.latitude) \(coord.longitude)"
     }
 }
-

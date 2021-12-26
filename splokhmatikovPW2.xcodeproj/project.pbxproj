@@ -12,6 +12,7 @@
 		F6334FFE26FB5064006745C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6334FFD26FB5064006745C1 /* ViewController.swift */; };
 		F633500326FB5067006745C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F633500226FB5067006745C1 /* Assets.xcassets */; };
 		F633500E26FFA012006745C1 /* UIViewPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633500D26FFA012006745C1 /* UIViewPin.swift */; };
+		F6F90B3C2770897E00D76E3B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F90B3B2770897E00D76E3B /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		F633500226FB5067006745C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F633500726FB5067006745C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F633500D26FFA012006745C1 /* UIViewPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIViewPin.swift; path = ../../../../../../Users/lohmat/Downloads/UIViewPin.swift; sourceTree = "<group>"; };
+		F6F90B3B2770897E00D76E3B /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				F6334FF926FB5064006745C1 /* AppDelegate.swift */,
 				F6334FFB26FB5064006745C1 /* SceneDelegate.swift */,
 				F6334FFD26FB5064006745C1 /* ViewController.swift */,
+				F6F90B3B2770897E00D76E3B /* SettingsViewController.swift */,
 				F633500226FB5067006745C1 /* Assets.xcassets */,
 				F633500726FB5067006745C1 /* Info.plist */,
 			);
@@ -135,6 +138,7 @@
 				F6334FFE26FB5064006745C1 /* ViewController.swift in Sources */,
 				F6334FFA26FB5064006745C1 /* AppDelegate.swift in Sources */,
 				F633500E26FFA012006745C1 /* UIViewPin.swift in Sources */,
+				F6F90B3C2770897E00D76E3B /* SettingsViewController.swift in Sources */,
 				F6334FFC26FB5064006745C1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
