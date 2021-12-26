@@ -47,11 +47,11 @@ final class SettingsViewController: UIViewController {
     
     private func setupSettingsView(){
         self.view.addSubview(self.settingsView)
-        self.settingsView.backgroundColor = .darkGray
-        self.settingsView.pinTop(to: view.safeAreaLayoutGuide.topAnchor, 10)
-        self.settingsView.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, 60)
-        self.settingsView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        self.settingsView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        self.settingsView.backgroundColor = .systemTeal
+        self.settingsView.pinTop(to: view.safeAreaLayoutGuide.topAnchor, 50)
+        self.settingsView.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor)
+        self.settingsView.pinBottom(to: view)
+        self.settingsView.pinLeft(to: view)
         self.settingsView.layer.cornerRadius = 10
     }
     
@@ -70,7 +70,7 @@ final class SettingsViewController: UIViewController {
         let locationLabel = UILabel()
         settingsView.addArrangedSubview(locationLabel)
         locationLabel.text = "Location"
-        locationLabel.pinTop(to: settingsView, -175)
+        locationLabel.pinTop(to: settingsView, -650)
         locationLabel.pinLeft(to: settingsView, 10)
         locationLabel.pinRight(to: settingsView, 10)
     }
@@ -129,7 +129,7 @@ final class SettingsViewController: UIViewController {
             view.addSubview(slider)
             slider.pinTop(to: view, 5)
             slider.setHeight(to: 20)
-            slider.pinLeft(to: view, 50)
+            slider.pinLeft(to: view, 60)
             slider.pinRight(to: view)
         }
     }
@@ -138,7 +138,9 @@ final class SettingsViewController: UIViewController {
         for i in 0..<3{
             masterSliders[i].value = sliders[i].value
         }
-        changeMasterColor(CGFloat(sliders[0].value), CGFloat(sliders[0].value), CGFloat(sliders[0].value))
+        changeMasterColor(CGFloat(sliders[0].value), CGFloat(sliders[1].value), CGFloat(sliders[2].value))
+        view.backgroundColor = UIColor(red: CGFloat(sliders[0].value), green: CGFloat(sliders[1].value), blue: CGFloat(sliders[2].value), alpha: 1)
+        settingsView.backgroundColor = UIColor(red: CGFloat(sliders[0].value), green: CGFloat(sliders[1].value), blue: CGFloat(sliders[2].value), alpha: 1)
     }
     
     @objc

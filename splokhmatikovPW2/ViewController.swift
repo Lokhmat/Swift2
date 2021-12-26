@@ -58,8 +58,7 @@ class ViewController: UIViewController {
                 self.settingsView.alpha = 1 - self.settingsView.alpha
             })
         case 2:
-            let navigationController = UINavigationController()
-            navigationController.pushViewController(
+            navigationController?.pushViewController(
                 SettingsViewController(locationTextView: locationTextView, locationManager: locationManager, masterToggle: locationToggle, sliders: sliders, function: changeColor(red:green:blue:)),
                 animated: true
             )
